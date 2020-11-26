@@ -8,4 +8,23 @@
     <orderEntry type="jdk" jdkName="Python 3.8 (Test_Django_GB)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="TemplatesService">
+    <option name="templateFileTypes">
+      <list>
+        <option value="XHTML" />
+        <option value="HTML" />
+        <option value="XML" />
+        <option value="JSON" />
+        <option value="SQL" />
+        <option value="JavaScript" />
+        <option value="YAML" />
+      </list>
+    </option>
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/geekshop/mainapp/templates" />
+      </list>
+    </option>
+  </component>
 </module>
