@@ -1,85 +1,48 @@
+import os
+import json
+
+from django.conf import settings
 from django.shortcuts import render
 
 
 # Create your views here.
-
-links_menu = [
-    {"href": "products_all", "name": "Все"},
-    {"href": "products_home", "name": "Дом"},
-    {"href": "products_modern", "name": "Модерн"},
-    {"href": "products_office", "name": "Офис"},
-    {"href": "products_classic", "name": "Класика"},
-]
+from mainapp.models import Product, ProductCategories
 
 my_user = 'Игорь'
 
 
 def main(request):
+    products_list_db = Product.objects.exclude(image__exact='')
+
     content = {
         'title': 'Главная',
-        'my_user': my_user
+        'my_user': my_user,
+        'products_list_db': products_list_db
     }
     return render(request, 'mainapp/index.html', content)
 
 
-def products(request):
-
+def products(request, pk=None):
+    category_list = ProductCategories.objects.all()
+    main_product = Product.objects.get(name='IPhone 12 Pro Max')
     content = {
         'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
+        'my_user': my_user,
+        'category_list': category_list,
+        'main_product': main_product
     }
     return render(request, 'mainapp/products.html', content)
 
 
 def contact(request):
+
+    file_path = os.path.join(settings.BASE_DIR, 'contacts.json')
+    with open(file_path, encoding='utf8') as file_contacts:
+        locations = json.load(file_contacts)
+
     content = {
         'title': 'Контакты',
-        'my_user': my_user
+        'my_user': my_user,
+        'locations': locations
     }
     return render(request, 'mainapp/contact.html', content)
-
-
-def products_all(request):
-    content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
-    }
-    return render(request, 'mainapp/products.html', content)
-
-
-def products_home(request):
-    content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
-    }
-    return render(request, 'mainapp/products.html', content)
-
-
-def products_office(request):
-    content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
-    }
-    return render(request, 'mainapp/products.html', content)
-
-
-def products_modern(request):
-    content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
-    }
-    return render(request, 'mainapp/products.html', content)
-
-
-def products_classic(request):
-    content = {
-        'title': 'Продукты',
-        'links_menu': links_menu,
-        'my_user': my_user
-    }
-    return render(request, 'mainapp/products.html', content)
