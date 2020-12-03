@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-from mainapp.models import Product, ProductCategories
+from mainapp.models import Product, ProductCategories, Location
 
 my_user = 'Игорь'
 
@@ -36,9 +36,7 @@ def products(request, pk=None):
 
 def contact(request):
 
-    file_path = os.path.join(settings.BASE_DIR, 'contacts.json')
-    with open(file_path, encoding='utf8') as file_contacts:
-        locations = json.load(file_contacts)
+    locations = Location.objects.all()
 
     content = {
         'title': 'Контакты',
