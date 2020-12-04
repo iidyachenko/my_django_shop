@@ -1,0 +1,8 @@
+[
+{"category": "Телефоны", "name": "IPhone 11", "image": "", "short_desc": "IPhone 11", "description": "IPhone 11", "price": "50000.00", "quantity": 10},
+  {"category": "Телефоны", "name": "IPhone 11 Pro", "image": "", "short_desc": "IPhone 11 Pro", "description": "IPhone 11 Pro", "price": "70000.00", "quantity": 20},
+  {"category": "Телефоны", "name": "IPhone 12", "image": "products_images/product-1.jpg", "short_desc": "IPhone 12", "description": "Новый IPhone 12. Будь на связи!", "price": "80000.00", "quantity": 50},
+  {"category": "Телефоны", "name": "IPhone 12 Pro Max", "image": "", "short_desc": "IPhone 12 Pro Max", "description": "IPhone 12 Pro Max", "price": "100000.00", "quantity": 10},
+  {"category": "Ноутбуки", "name": "Mac Book Pro", "image": "products_images/product-2.jpg", "short_desc": "Mac Book Pro", "description": "Новый Макбук. Не оторваться.", "price": "120000.00", "quantity": 10},
+  {"category": "Планшеты", "name": "IPad", "image": "products_images/product_Ipad.jpg", "short_desc": "IPad", "description": "Это IPad - лучший планшет!", "price": "40000.00", "quantity": 20}
+]

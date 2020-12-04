@@ -1,9 +1,9 @@
 <ul class="links-menu">
-    {% for link in links_menu %}
+    {% for category in category_list %}
         <li>
-            <a href="{% url link.href %}"
-               {% if request.resolver_match.url_name ==  link.href %} class="active" {% endif %}>
-                {{link.name}}</a>
+            <a href={% url 'mainapp:index' %}{{ category.id }}
+               {% if request.resolver_match.url_name ==  category.id %} class="active" {% endif %}>
+                {{category.name}}</a>
         </li>
     {% endfor %}
 </ul>

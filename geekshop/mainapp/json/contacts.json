@@ -1,0 +1,22 @@
+[{
+		"city": "Москва",
+		"phone": "+7-888-888-8888",
+		"email": "info_moscow@techshop.ru",
+		"address": "Кремль д.1",
+        "map_code": "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A3a08591a75577bcf3832c6255de3db3bfe011ec0d32e58e358f822a0903dc2ea&amp;width=100%&amp;height=300&amp;lang=ru_UA&amp;scroll=true"
+	},
+	{
+		"city": "Санкт-Петербург",
+		"phone": "+7-777-777-7777",
+		"email": "info_piter@techshop.ru",
+		"address": "Невский д.1",
+        "map_code": "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aec5651e49977371ef84fbad715c194b29b17b47c949c915c6eb91381d7c02cb7&amp;width=365&amp;height=300&amp;lang=ru_RU&amp;scroll=true"
+	},
+	{
+		"city": "Нижний Новгород",
+		"phone": "+7-999-999-9999",
+		"email": "info_ekburg@techshop.ru",
+		"address": "Кремль д.1",
+        "map_code": "https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A4c96fc1f3574a785472cd92f304f68a1adf72bd27cb7ad2d12e5c1daf2221055&amp;width=365&amp;height=300&amp;lang=ru_RU&amp;scroll=true"
+	}
+]

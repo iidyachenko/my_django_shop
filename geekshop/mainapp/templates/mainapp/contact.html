@@ -12,55 +12,25 @@
     </div>
 {% endblock %}
 {% block content %}
-		<div class="location">
-			<div class="location-1">
-				<i class="fa fa-map-marker fa-5x"></i>
-				<h4>Москва</h4>
-				<div class="contacts">
-					<h5>Телефон</h5>
-					<p>+7-888-888-8888</p>
-				</div>
-				<div class="contacts">
-					<h5>Email</h5>
-					<p>info@geekshop.ru</p>
-				</div>
-				<div class="contacts">
-					<h5>Адрес</h5>
-					<p>В пределах МКАД</p>
-				</div>
-			</div>
+	{% for location in locations %}
+        <div class="location">
 			<div class="location-1">
 				<script type="text/javascript" charset="utf-8" async
-                src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A3a08591a75577bcf3832c6255de3db3bfe011ec0d32e58e358f822a0903dc2ea&amp;width=100%&amp;height=300&amp;lang=ru_UA&amp;scroll=true"></script>
-				<h4>Москва</h4>
+                src={{ location.map_code }}></script>
+				<h4>{{ location.city }}</h4>
 				<div class="contacts">
 					<h5>Телефон</h5>
-					<p>+7-888-888-8888</p>
+					<p>{{ location.phone }}</p>
 				</div>
 				<div class="contacts">
 					<h5>Email</h5>
-					<p>info@geekshop.ru</p>
+					<p>{{ location.email }}</p>
 				</div>
 				<div class="contacts">
 					<h5>Адрес</h5>
-					<p>В пределах МКАД</p>
-				</div>
-			</div>
-			<div class="location-1">
-				<i class="fa fa-map-marker fa-5x"></i>
-				<h4>Москва</h4>
-				<div class="contacts">
-					<h5>Телефон</h5>
-					<p>+7-888-888-8888</p>
-				</div>
-				<div class="contacts">
-					<h5>Email</h5>
-					<p>info@geekshop.ru</p>
-				</div>
-				<div class="contacts">
-					<h5>Адрес</h5>
-					<p>В пределах МКАД</p>
+					<p>{{ location.address }}</p>
 				</div>
 			</div>
 		</div>
+    {% endfor %}
 {% endblock %}
