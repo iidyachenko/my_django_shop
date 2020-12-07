@@ -53,3 +53,5 @@ class ShopUserEditForm(UserChangeForm):
         if data < 18:
             raise forms.ValidationError("Вам меньше 18 лет")
         return data
+
+

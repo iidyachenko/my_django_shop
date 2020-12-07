@@ -1,8 +1,14 @@
 <ul class="links-menu">
+    <li>
+        <a href={% url 'mainapp:index' %}0
+                {% if request.resolver_match.kwargs.pk ==  0 %} class="active"{% endif %}>
+                все</a>
+    </li>
     {% for category in category_list %}
+
         <li>
             <a href={% url 'mainapp:index' %}{{ category.id }}
-               {% if request.resolver_match.url_name ==  category.id %} class="active" {% endif %}>
+               {% if request.resolver_match.kwargs.pk ==  category.pk %} class="active" {% endif %}>
                 {{category.name}}</a>
         </li>
     {% endfor %}
