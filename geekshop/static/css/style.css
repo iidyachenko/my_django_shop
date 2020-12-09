@@ -270,9 +270,11 @@ html, body {
 .logo {
 	background-image: url(/static/img/logo.png);
 	margin-top: 63px;
-	width: 185px;
-	height: 22px;
+	width: 85px;
+	height: 85px;
 	float: left;
+	z-index: 2;
+	position:absolute;
 }
 
 .menu {
