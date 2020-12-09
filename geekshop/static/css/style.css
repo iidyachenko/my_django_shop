@@ -59,7 +59,7 @@ html, body {
 .basket_list .basket_record {
     position: relative;
     display: block;
-    height: 170px;
+    height: 250px;
     float: none;
 }
 
@@ -1136,7 +1136,7 @@ td:first-child {
 	padding-left: 98px;
 	padding-right: 98px;
 	margin-top: 98px;
-	height: 651px; 
+	height: 500px;
 }
 .details-slider {
 	width: 570px;
@@ -1145,8 +1145,13 @@ td:first-child {
 }
 .slider-product {
 	width: 570px;
-	height: 570px;
+	height: 370px;
 }
+.main_product_img{
+	display: block;
+	margin: auto;
+}
+
 .slider-control {
 	width: 420px;
 	height: 70px;
