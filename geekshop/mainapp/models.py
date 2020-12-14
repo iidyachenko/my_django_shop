@@ -6,6 +6,7 @@ from django.db import models
 class ProductCategories(models.Model):
     name = models.CharField(max_length=64, unique=True, verbose_name="Имя")
     description = models.TextField(verbose_name="Описание")
+    is_active = models.BooleanField(default=True, verbose_name='активно')
 
     def __str__(self):
         return self.name
@@ -20,6 +21,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0, verbose_name="Цена")
     quantity = models.PositiveSmallIntegerField(default=0, verbose_name="Количество на складе")
     main_flag = models.BooleanField(default=False, verbose_name="Наличие на главной")
+    is_active = models.BooleanField(default=True, verbose_name='активно')
 
     def __str__(self):
         return f"{self.name}  {self.category.name}"

@@ -44,7 +44,7 @@ window.onload = function () {
     });
 
     // добавляем ajax-обработчик для удаления товара
-    $('.remove_btn').on('click', function () {
+    $('.basket_list').on('click','.remove_btn', function () {
         let target_href = event.target;
         console.dir(event.target);
         if (target_href) {
