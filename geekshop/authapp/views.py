@@ -10,15 +10,20 @@ from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditF
 
 def login(request):
     login_form = ShopUserLoginForm(data=request.POST)
+
+    next_page = request.GET.get('next', '')
+
     if request.method == 'POST' and login_form.is_valid():
         username = request.POST.get('username')
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user and user.is_active:
             auth.login(request, user)
+            if 'next' in request.POST.keys():
+                return HttpResponseRedirect(request.POST['next'])
             return HttpResponseRedirect(reverse('main'))
 
-    content = {'login_form': login_form}
+    content = {'login_form': login_form, 'next': next_page}
     return render(request, 'authapp/login.html', content)
 
 
@@ -50,5 +55,3 @@ def edit(request):
         edit_form = ShopUserEditForm(instance=request.user)
     content = {'edit_form': edit_form}
     return render(request, 'authapp/edit.html', content)
-
-
