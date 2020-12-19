@@ -23,7 +23,7 @@ def login(request):
                 return HttpResponseRedirect(request.POST['next'])
             return HttpResponseRedirect(reverse('main'))
 
-    content = {'login_form': login_form, 'next': next_page}
+    content = {'title': 'Аутентификация', 'login_form': login_form, 'next': next_page}
     return render(request, 'authapp/login.html', content)
 
 
