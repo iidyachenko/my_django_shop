@@ -23,12 +23,6 @@ def get_same_products(hot_product):
     return Product.objects.filter(category__pk=hot_product.category.pk).exclude(pk=hot_product.pk)
 
 
-def get_basket(user):
-    if user.is_authenticated:
-        return Basket.objects.filter(user=user)
-    return []
-
-
 def main(request):
     products_list_db = Product.objects.filter(main_flag=True)
 
@@ -36,7 +30,6 @@ def main(request):
         'title': 'Главная',
         'my_user': my_user,
         'products_list_db': products_list_db,
-        'basket': get_basket(request.user)
     }
     return render(request, 'mainapp/index.html', content)
 
@@ -63,7 +56,6 @@ def products(request, pk=None, page=1):
                    'category_list': category_list,
                    'product_list': product_paginator,
                    'category': category,
-                   'basket': get_basket(request.user),
                    'hot_product': get_hot_product(),
                    }
         return render(request, 'mainapp/product_list.html', content)
@@ -74,7 +66,6 @@ def products(request, pk=None, page=1):
         'my_user': my_user,
         'category_list': category_list,
         'main_product': main_product,
-        'basket': get_basket(request.user),
         'same_products': get_same_products(main_product)
     }
     return render(request, 'mainapp/products.html', content)
@@ -88,7 +79,6 @@ def product(request, pk):
         'title': _product.name,
         'category_list': category_list,
         'product': _product,
-        'basket': get_basket(request.user),
     }
     return render(request, 'mainapp/product.html', content)
 
@@ -100,6 +90,5 @@ def contact(request):
         'title': 'Контакты',
         'my_user': my_user,
         'locations': locations,
-        'basket': get_basket(request.user)
     }
     return render(request, 'mainapp/contact.html', content)
