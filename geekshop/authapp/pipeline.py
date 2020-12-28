@@ -2,6 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 from urllib.parse import urlunparse, urlencode
 import requests
+import shutil
+from django.conf import settings
 from django.utils import timezone
 from social_core.exceptions import AuthForbidden
 
@@ -16,7 +18,7 @@ def save_user_profile(backend, user, response, *args, **kwargs):
                           'api.vk.com',
                           '/method/users.get',
                           None,
-                          urlencode(OrderedDict(fields=','.join(('bdate', 'sex', 'about')),
+                          urlencode(OrderedDict(fields=','.join(('bdate', 'sex', 'about', 'photo_200_orig')),
                                                 access_token=response['access_token'],
                                                 v='5.92'
                                                 )),
@@ -28,7 +30,6 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         return
 
     data = resp.json()['response'][0]
-
     if data['sex']:
         if data['sex'] == 2:
             user.shopuserprofile.gender = ShopUserProfile.MALE
@@ -46,6 +47,16 @@ def save_user_profile(backend, user, response, *args, **kwargs):
         if age < 18:
             user.delete()
             raise AuthForbidden('social_core.backends.vk.VKOAuth2')
+        user.age = age
 
+    if data['photo_200_orig']:
+        url = data['photo_200_orig']
+        response = requests.get(url, stream=True)
+        print(url)
+        print(response)
+        with open(f'{settings.MEDIA_ROOT}/user_avatars/{user.id}.png', 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+
+        user.avatar = f'{settings.MEDIA_ROOT}/user_avatars/{user.id}.png'
     user.save()
 
