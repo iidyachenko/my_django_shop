@@ -26,3 +26,11 @@ class Basket(models.Model):
         __total_items = Basket.objects.filter(user=self.user)
         __total_cost = sum(list(map(lambda x: x.product_cost, __total_items)))
         return __total_cost
+
+    @staticmethod
+    def get_items(user):
+        return Basket.objects.filter(user=user).order_by('product__category')
+
+    @staticmethod
+    def get_item(pk):
+        return Basket.objects.get(pk=pk)
