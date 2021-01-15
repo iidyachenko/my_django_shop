@@ -9,10 +9,4 @@ class Migration(migrations.Migration):
         ('mainapp', '0004_product_main_flag'),
     ]
 
-    operations = [
-        migrations.AlterField(
-            model_name='product',
-            name='main_flag',
-            field=models.BooleanField(default=False, verbose_name='Наличие на главной'),
-        ),
-    ]
+    
