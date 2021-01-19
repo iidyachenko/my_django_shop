@@ -3,6 +3,7 @@ import json
 import random
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 
@@ -11,7 +12,21 @@ from basketapp.models import Basket
 from mainapp.models import Product, ProductCategories, Location
 
 my_user = 'Игорь'
-category_list = ProductCategories.objects.all()
+
+
+def get_links_menu():
+    if settings.LOW_CACHE:
+        key = 'links_menu'
+        links_menu = cache.get(key)
+        if links_menu is None:
+            links_menu = ProductCategories.objects.filter(is_active=True)
+            cache.set(key, links_menu)
+        return links_menu
+    else:
+        return ProductCategories.objects.filter(is_active=True)
+
+
+category_list = get_links_menu()
 
 
 def get_hot_product():
@@ -24,9 +39,8 @@ def get_same_products(hot_product):
 
 
 def main(request):
-    # products_list_db = Product.objects.filter(is_active=True, category__is_active=True, main_flag=True)
-
-    products_list_db = Product.objects.filter(is_active=True, category__is_active=True, main_flag=True).select_related('category')
+    products_list_db = Product.objects.filter(is_active=True, category__is_active=True, main_flag=True).select_related(
+        'category')
 
     content = {
         'title': 'Главная',
@@ -37,7 +51,6 @@ def main(request):
 
 
 def products(request, pk=None, page=1):
-
     if pk is not None:
         if pk == 0:
             product_list = Product.objects.all()
@@ -74,7 +87,6 @@ def products(request, pk=None, page=1):
 
 
 def product(request, pk):
-
     _product = get_object_or_404(Product, pk=pk)
 
     content = {
@@ -84,8 +96,8 @@ def product(request, pk):
     }
     return render(request, 'mainapp/product.html', content)
 
-def contact(request):
 
+def contact(request):
     locations = Location.objects.all()
 
     content = {
