@@ -26,9 +26,6 @@ def get_links_menu():
         return ProductCategories.objects.filter(is_active=True)
 
 
-category_list = get_links_menu()
-
-
 def get_hot_product():
     products_all = Product.objects.all()
     return random.choice(list(products_all))
@@ -51,6 +48,7 @@ def main(request):
 
 
 def products(request, pk=None, page=1):
+    category_list = get_links_menu()
     if pk is not None:
         if pk == 0:
             product_list = Product.objects.all()
@@ -87,6 +85,8 @@ def products(request, pk=None, page=1):
 
 
 def product(request, pk):
+    category_list = get_links_menu()
+
     _product = get_object_or_404(Product, pk=pk)
 
     content = {
