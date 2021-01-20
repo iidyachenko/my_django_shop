@@ -137,16 +137,6 @@ def products(request, pk=None, page=1):
                    }
         return render(request, 'mainapp/product_list.html', content)
 
-    main_product = get_hot_product()
-    content = {
-        'title': 'Продукты',
-        'my_user': my_user,
-        'category_list': category_list,
-        'main_product': main_product,
-        'same_products': get_same_products(main_product)
-    }
-    return render(request, 'mainapp/products.html', content)
-
 
 def product(request, pk):
     category_list = get_links_menu()
