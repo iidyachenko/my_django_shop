@@ -13,7 +13,7 @@ urlpatterns = [
     path('<int:pk>/', cache_page(3600)(mainapp.products), name='category'),
     re_path(r'^category/(?P<pk>\d+)/page/(?P<page>\d+)/ajax/$', cache_page(3600)(mainapp.products_ajax)),
     path('<int:pk>/<int:page>/', cache_page(3600)(mainapp.products), name='page'),
-    re_path(r'^category/(?P<pk>\d+)/ajax/$', cache_page(3600)(mainapp.products_ajax)),
+    re_path(r'^page/(?P<pk>\d+)/ajax/$', cache_page(3600)(mainapp.products_ajax)),
     path('product/<int:pk>/', mainapp.product, name='product')
 
 ]
