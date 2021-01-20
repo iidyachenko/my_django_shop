@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
-
 # Create your views here.
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -13,7 +12,8 @@ from mainapp.models import Product
 
 @login_required
 def basket(request):
-    basket_items = Basket.objects.filter(user=request.user).order_by('product__category').select_related('product','product__category')
+    basket_items = Basket.objects.filter(user=request.user).order_by('product__category').select_related('product',
+                                                                                                         'product__category')
 
     content = {'title': 'Корзина',
                'basket_items': basket_items}
@@ -51,7 +51,6 @@ def delete(request, pk):
         return JsonResponse({'result': result})
 
 
-
 @login_required
 def basket_edit(request, pk, quantity):
     if request.is_ajax():
@@ -70,6 +69,8 @@ def basket_edit(request, pk, quantity):
             'basket_items': basket_items
         }
 
-        result = render_to_string('basketapp/includes/inc_basket_list.html', content)
+        result = render_to_string('basketapp/includes/inc_basket_list.html',
+                                  context=content,
+                                  request=request)
 
         return JsonResponse({'result': result})
