@@ -1,6 +1,13 @@
 $( document ).on( 'click', '.details a', function(event) {
    if (event.target.hasAttribute('href')) {
-       var link = event.target.href + 'ajax/';
+       var link = ''
+       if (event.target.href.slice(-1) === '/'){
+           link = event.target.href + 'ajax/';
+       }
+       else {
+           link = event.target.href + '/ajax/';
+       }
+
        var link_array = link.split('/');
        console.log(link)
        console.log(link_array)
