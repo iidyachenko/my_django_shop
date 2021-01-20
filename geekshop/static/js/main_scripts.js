@@ -4,7 +4,7 @@ $( document ).on( 'click', '.details a', function(event) {
        var link_array = link.split('/');
        console.log(link_array)
        console.log(link_array[4])
-       if (link_array[4] === 'products') {
+       if (link_array[3] === 'products') {
            $.ajax({
                url: link,
                success: function (data) {
