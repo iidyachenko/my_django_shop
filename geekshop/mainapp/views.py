@@ -199,7 +199,11 @@ def products_ajax(request, pk=None, page=1):
                        'category': category,
                        'hot_product': get_hot_product(),
                        }
-            return render(request, 'mainapp/product_list.html', content)
+            result = render_to_string(
+                'mainapp/includes/inc_products_list_content.html',
+                context=content,
+                request=request)
+            return JsonResponse({'result': result})
 
         main_product = get_hot_product()
         content = {
