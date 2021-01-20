@@ -5,9 +5,12 @@ import random
 from django.conf import settings
 from django.core.cache import cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
+from django.template.loader import render_to_string
+
 from basketapp.models import Basket
 from mainapp.models import Product, ProductCategories, Location
 
@@ -67,7 +70,8 @@ def get_main_products():
         key = 'main_products'
         products = cache.get(key)
         if products is None:
-            products = Product.objects.filter(is_active=True, category__is_active=True, main_flag=True).select_related('category')
+            products = Product.objects.filter(is_active=True, category__is_active=True, main_flag=True).select_related(
+                'category')
             cache.set(key, products)
         return products
     else:
@@ -166,3 +170,40 @@ def contact(request):
         'locations': locations,
     }
     return render(request, 'mainapp/contact.html', content)
+
+
+def products_ajax(request, pk=None, page=1):
+    if request.is_ajax():
+        links_menu = get_links_menu()
+
+        if pk:
+            if pk == '0':
+                category = {
+                    'pk': 0,
+                    'name': 'все'
+                }
+                products = get_products()
+            else:
+                category = get_category(pk)
+                products = get_products_in_category_orederd_by_price(pk)
+
+            paginator = Paginator(products, 2)
+            try:
+                products_paginator = paginator.page(page)
+            except PageNotAnInteger:
+                products_paginator = paginator.page(1)
+            except EmptyPage:
+                products_paginator = paginator.page(paginator.num_pages)
+
+            content = {
+                'links_menu': links_menu,
+                'category': category,
+                'products': products_paginator,
+            }
+
+            result = render_to_string(
+                'mainapp/includes/inc_products_list_content.html',
+                context=content,
+                request=request)
+
+            return JsonResponse({'result': result})
