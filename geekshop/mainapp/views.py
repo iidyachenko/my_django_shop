@@ -137,6 +137,16 @@ def products(request, pk=None, page=1):
                    }
         return render(request, 'mainapp/product_list.html', content)
 
+    main_product = get_hot_product()
+    content = {
+        'title': 'Продукты',
+        'my_user': my_user,
+        'category_list': category_list,
+        'main_product': main_product,
+        'same_products': get_same_products(main_product)
+    }
+    return render(request, 'mainapp/products.html', content)
+
 
 def product(request, pk):
     category_list = get_links_menu()
@@ -193,19 +203,3 @@ def products_ajax(request, pk=None, page=1):
                 context=content,
                 request=request)
             return JsonResponse({'result': result})
-
-        main_product = get_hot_product()
-        content = {
-            'title': 'Продукты',
-            'my_user': my_user,
-            'category_list': category_list,
-            'main_product': main_product,
-            'same_products': get_same_products(main_product)
-        }
-
-        result = render_to_string(
-            'mainapp/includes/inc_products_list_content.html',
-            context=content,
-            request=request)
-
-        return JsonResponse({'result': result})
