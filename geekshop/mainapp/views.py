@@ -174,7 +174,6 @@ def contact(request):
 
 def products_ajax(request, pk=None, page=1):
     if request.is_ajax():
-        links_menu = get_links_menu()
 
         category_list = get_links_menu()
         if pk is not None:
