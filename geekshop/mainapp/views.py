@@ -176,34 +176,43 @@ def products_ajax(request, pk=None, page=1):
     if request.is_ajax():
         links_menu = get_links_menu()
 
-        if pk:
-            if pk == '0':
-                category = {
-                    'pk': 0,
-                    'name': 'все'
-                }
-                products = get_products()
+        category_list = get_links_menu()
+        if pk is not None:
+            if pk == 0:
+                product_list = get_products()
+                category = {'name': 'все', 'pk': 0}
             else:
+                product_list = get_products_in_category_orederd_by_price(pk)
                 category = get_category(pk)
-                products = get_products_in_category_orederd_by_price(pk)
 
-            paginator = Paginator(products, 2)
+            paginator = Paginator(product_list, 2)
             try:
-                products_paginator = paginator.page(page)
+                product_paginator = paginator.page(page)
             except PageNotAnInteger:
-                products_paginator = paginator.page(1)
+                product_paginator = paginator.page(1)
             except EmptyPage:
-                products_paginator = paginator.page(paginator.num_pages)
+                product_paginator = paginator.page(paginator.num_pages)
 
-            content = {
-                'links_menu': links_menu,
-                'category': category,
-                'products': products_paginator,
-            }
+            content = {'title': 'Продукты',
+                       'category_list': category_list,
+                       'product_list': product_paginator,
+                       'category': category,
+                       'hot_product': get_hot_product(),
+                       }
+            return render(request, 'mainapp/product_list.html', content)
 
-            result = render_to_string(
-                'mainapp/includes/inc_products_list_content.html',
-                context=content,
-                request=request)
+        main_product = get_hot_product()
+        content = {
+            'title': 'Продукты',
+            'my_user': my_user,
+            'category_list': category_list,
+            'main_product': main_product,
+            'same_products': get_same_products(main_product)
+        }
 
-            return JsonResponse({'result': result})
+        result = render_to_string(
+            'mainapp/includes/inc_products_list_content.html',
+            context=content,
+            request=request)
+
+        return JsonResponse({'result': result})
