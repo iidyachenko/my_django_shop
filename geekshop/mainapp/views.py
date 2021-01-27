@@ -5,6 +5,9 @@ import random
 from django.conf import settings
 from django.core.cache import cache
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import connection
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -203,3 +206,5 @@ def products_ajax(request, pk=None, page=1):
                 context=content,
                 request=request)
             return JsonResponse({'result': result})
+
+

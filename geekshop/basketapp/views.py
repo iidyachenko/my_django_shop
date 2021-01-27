@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.db import connection
+from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -29,10 +31,13 @@ def add(request, pk):
     print(basket_item)
     if not basket_item:
         basket_item = Basket(user=request.user, product=product)
-
-    basket_item.quantity += 1
+        basket_item.quantity += 1
+    else:
+        # basket_item.quantity += 1
+        basket_item.quantity = F('quantity') + 1
     basket_item.save()
-
+    update_queries = list(filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
+    print(f'запрос корзины: {update_queries}')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -63,6 +68,8 @@ def basket_edit(request, pk, quantity):
         else:
             new_basket_item.delete()
 
+        update_queries = list(filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
+        print(f'запрос корзины: {update_queries}')
         basket_items = Basket.objects.filter(user=request.user).order_by('product__category')
 
         content = {

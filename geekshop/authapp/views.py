@@ -67,7 +67,7 @@ def register(request):
     else:
         register_form = ShopUserRegisterForm()
 
-    content = {'register_form': register_form}
+    content = {'title': 'Регистрация', 'register_form': register_form}
     return render(request, 'authapp/register.html', content)
 
 
