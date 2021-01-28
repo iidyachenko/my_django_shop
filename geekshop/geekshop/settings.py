@@ -172,7 +172,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/auth/login/'
 LOGIN_ERROR_URL = '/'
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://89.108.71.112/'
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = '25'
