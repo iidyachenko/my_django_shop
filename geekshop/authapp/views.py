@@ -6,6 +6,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserProfileEditForm
 from authapp.models import ShopUser
@@ -29,6 +30,7 @@ def verify(request, email, activation_key):
     return render(request, 'authapp/verification.html')
 
 
+@csrf_exempt
 def login(request):
     login_form = ShopUserLoginForm(data=request.POST)
     next_page = request.GET.get('next', '')
@@ -65,7 +67,7 @@ def register(request):
     else:
         register_form = ShopUserRegisterForm()
 
-    content = {'register_form': register_form}
+    content = {'title': 'Регистрация', 'register_form': register_form}
     return render(request, 'authapp/register.html', content)
 
 

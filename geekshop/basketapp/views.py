@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.db import connection
+from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
-
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -13,7 +14,8 @@ from mainapp.models import Product
 
 @login_required
 def basket(request):
-    basket_items = Basket.objects.filter(user=request.user).order_by('product__category')
+    basket_items = Basket.objects.filter(user=request.user).order_by('product__category').select_related('product',
+                                                                                                         'product__category')
 
     content = {'title': 'Корзина',
                'basket_items': basket_items}
@@ -29,10 +31,13 @@ def add(request, pk):
     print(basket_item)
     if not basket_item:
         basket_item = Basket(user=request.user, product=product)
-
-    basket_item.quantity += 1
+        basket_item.quantity += 1
+    else:
+        # basket_item.quantity += 1
+        basket_item.quantity = F('quantity') + 1
     basket_item.save()
-
+    update_queries = list(filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
+    print(f'запрос корзины: {update_queries}')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -51,7 +56,6 @@ def delete(request, pk):
         return JsonResponse({'result': result})
 
 
-
 @login_required
 def basket_edit(request, pk, quantity):
     if request.is_ajax():
@@ -64,12 +68,16 @@ def basket_edit(request, pk, quantity):
         else:
             new_basket_item.delete()
 
+        update_queries = list(filter(lambda x: 'UPDATE' in x['sql'], connection.queries))
+        print(f'запрос корзины: {update_queries}')
         basket_items = Basket.objects.filter(user=request.user).order_by('product__category')
 
         content = {
             'basket_items': basket_items
         }
 
-        result = render_to_string('basketapp/includes/inc_basket_list.html', content)
+        result = render_to_string('basketapp/includes/inc_basket_list.html',
+                                  context=content,
+                                  request=request)
 
         return JsonResponse({'result': result})

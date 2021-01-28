@@ -27,15 +27,22 @@ class Order(models.Model):
                               max_length=3,
                               choices=ORDER_STATUS_CHOICES,
                               default=FORMING)
-    is_active = models.BooleanField(verbose_name='активен', default=True)
+    is_active = models.BooleanField(verbose_name='активен', default=True, db_index=True)
 
-    def get_total_quantity(self):
+    def get_summary(self):
         items = self.orderitems.select_related()
-        return sum(list(map(lambda x: x.quantity, items)))
+        return {
+            'total_cost': sum(list(map(lambda x: x.quantity * x.product.price, items))),
+            'total_quantity': sum(list(map(lambda x: x.quantity, items)))
+        }
 
-    def get_total_cost(self):
-        items = self.orderitems.select_related()
-        return sum(list(map(lambda x: x.quantity * x.product.price, items)))
+    # def get_total_quantity(self):
+    #     items = self.orderitems.select_related()
+    #     return sum(list(map(lambda x: x.quantity, items)))
+    #
+    # def get_total_cost(self):
+    #     items = self.orderitems.select_related()
+    #     return sum(list(map(lambda x: x.quantity * x.product.price, items)))
 
     # def delete(self):
     #     for item in self.orderitems.select_related():
