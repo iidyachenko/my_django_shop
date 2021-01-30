@@ -59,3 +59,8 @@ class Basket(models.Model):
             self.product.quantity -= self.quantity
         self.product.save()
         super(self.__class__, self).save(*args, **kwargs)
+
+    def delete(self):
+        self.product.quantity += self.quantity
+        self.product.save()
+        super(self.__class__, self).delete()
