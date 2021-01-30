@@ -54,8 +54,7 @@ class Basket(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk:
-            q = self.quantity
-            self.product.quantity -= q
+            self.product.quantity -= self.quantity - self.__class__.get_item(self.pk).quantity
         else:
             self.product.quantity -= self.quantity
         self.product.save()
