@@ -17,12 +17,13 @@ def send_verify_email(user):
     subject = "Подтверждение учетной записи"
     message = f'{settings.DOMAIN_NAME}{verify_link}'
 
-    return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email],fail_silently=False)
+    return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
 
-def verify(request, email, activation_key):
+def verify(request, email, activation_key, backend='django.contrib.auth.backends.ModelBackend'):
     user = ShopUser.objects.get(email=email)
     if user.activation_key == activation_key and not user.is_activation_key_expire():
+        user.backend = backend
         user.is_active = True
         user.activation_key = ''
         user.save()
